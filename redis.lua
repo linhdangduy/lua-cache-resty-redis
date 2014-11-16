@@ -126,7 +126,7 @@ RedisConn = RedisConn.exports;
 local CacheRedis = require('halo').class.CacheRedis;
 
 
-function CacheRedis:init( host, port, opts, expires )
+function CacheRedis:init( expires, host, port, opts )
     local own = protected(self);
     local err;
     
