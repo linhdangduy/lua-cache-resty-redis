@@ -126,7 +126,7 @@ RedisConn = RedisConn.exports;
 local CacheRedis = require('halo').class.CacheRedis;
 
 
-function CacheRedis:init( expires, host, port, opts )
+function CacheRedis:init( ttl, host, port, opts )
     local own = protected(self);
     local err;
     
@@ -135,26 +135,26 @@ function CacheRedis:init( expires, host, port, opts )
         return nil, err;
     end
     
-    return Cache.new( self, expires );
+    return Cache.new( self, ttl );
 end
 
 
-function CacheRedis:set( key, val, expires )
+function CacheRedis:set( key, val, ttl )
     local ok, err, kerr;
     
     val, err = encode( val );
     -- should encode
     if err then
         return false, EENCODE:format( err );
-    -- exec with expire
-    elseif expires > 0 then
+    -- exec with ttl
+    elseif ttl > 0 then
         ok, err, kerr = protected(self).conn:exec({
             { 'multi' },
             { 'set', key, val },
-            { 'expire', key, expires },
+            { 'expire', key, ttl },
             { 'exec' }
         });
-    -- exec no expire
+    -- exec no ttl
     else
         ok, err, kerr = protected(self).conn:exec({
             { 'set', key, val }
