@@ -11,10 +11,10 @@ description = {
 }
 dependencies = {
     "lua >= 5.1",
-    "util >= 1.1",
+    "cache >= 1.0.1",
+    "halo >= 1.1.0",
     "lua-cjson >= 2.1.0",
-    "halo >= 1.0",
-    "cache >= 1.0",
+    "util >= 1.3.3"
 }
 build = {
     type = "builtin",
