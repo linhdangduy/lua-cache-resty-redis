@@ -187,7 +187,7 @@ end
 
 function CacheRedis:delete( key )
     local _, err = protected(self).conn:exec({
-        { 'delete', key }
+        { 'del', key }
     });
     
     if err then
