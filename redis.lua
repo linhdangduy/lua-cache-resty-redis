@@ -198,4 +198,17 @@ function CacheRedis:delete( key )
 end
 
 
+function CacheRedis:rename( okey, nkey )
+    local _, err = protected(self).conn:exec({
+        { 'rename', okey, nkey }
+    });
+    
+    if err then
+        return false, err;
+    end
+    
+    return true;
+end
+
+
 return CacheRedis.exports;
