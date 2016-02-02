@@ -16,5 +16,5 @@ resty-redis cache storage plugin for [lua-cache](https://github.com/mah0x211/lua
 ## Installation
 
 ```sh
-luarocks install --from=http://mah0x211.github.io/rocks/ cache-resty-redis
+luarocks install cache-resty-redis --from=http://mah0x211.github.io/rocks/
 ```
