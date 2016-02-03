@@ -165,14 +165,34 @@ function CacheRedis:set( key, val, ttl )
 end
 
 
-function CacheRedis:get( key )
-    local res, err = protected(self).conn:exec({
-        { 'get', key }
-    });
-    
-    if err then
-        return nil, err;
-    elseif res == NULL then
+function CacheRedis:get( key, ttl )
+    local res, err;
+
+    -- exec with ttl
+    if ttl then
+        res, err = protected(self).conn:exec({
+            { 'multi' },
+            { 'expire', key, ttl },
+            { 'get', key },
+            { 'exec' }
+        });
+
+        if err then
+            return nil, er;
+        end
+        -- set get response
+        res = res[2];
+    -- exec without ttl
+    else
+        res, err = protected(self).conn:exec({
+            { 'get', key }
+        });
+        if err then
+            return nil, err;
+        end
+    end
+
+    if res == NULL then
         res = nil;
     else
         res, err = decode( res );
